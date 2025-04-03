@@ -7,7 +7,6 @@ import (
 	"github.com/k3vwdd/greenlit/ui"
 )
 
-
 func (app *application) routes() *gin.Engine {
 
     router := gin.Default()

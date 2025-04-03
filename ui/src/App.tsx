@@ -1,25 +1,30 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-import "./index.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./components/Home";
+import Healthcheck from "./components/Healthcheck";
 
 function App() {
-    const [data, setData] = useState("");
-
-    useEffect(() => {
-        axios
-            .get("http://localhost:4000/v1/healthcheck")
-            .then((response) => {
-                setData(response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching data:", error);
-            });
-    }, []);
 
     return (
-        <div>
-            <p className="text-cyan-300">{data}</p>
-        </div>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <div className="text-gray-100 container mx-auto">
+              <Home />
+            </div>
+          }
+        />
+        <Route
+          path="/v1/healthcheck"
+          element={
+            <div className="text-gray-100 container mx-auto">
+              <Healthcheck />
+            </div>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
     );
 }
 
