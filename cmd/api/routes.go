@@ -1,20 +1,21 @@
 package main
 
 import (
-	"net/http"
 
-	"github.com/julienschmidt/httprouter"
+	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/contrib/cors"
+	"github.com/k3vwdd/greenlit/ui"
 )
 
 
+func (app *application) routes() *gin.Engine {
 
-func (app *application) routes() http.Handler {
-
-    router := httprouter.New()
-
-    router.HandlerFunc(http.MethodGet,"/v1/healthcheck", app.healthCheckHandler)
-    router.HandlerFunc(http.MethodPost,"/v1/movies", app.createMovieHandler)
-    router.HandlerFunc(http.MethodGet,"/v1/movies/:id", app.showMovieHandler)
+    router := gin.Default()
+    router.Use(cors.Default())
+    router.GET("/v1/healthcheck", app.healthCheckHandler)
+    router.POST("/v1/movies", app.createMovieHandler)
+    router.GET("/v1/movies/:id", app.showMovieHandler)
+    ui.AddRoutes(router)
 
     return router
 }

@@ -1,23 +1,23 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
+	"github.com/gin-gonic/gin"
 )
 
-func (app *application) createMovieHandler(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprintln(w, "Create a new movie")
+func (app *application) createMovieHandler(c *gin.Context) {
+    c.String(http.StatusOK, "Create a new movie")
 }
 
-func (app *application) showMovieHandler(w http.ResponseWriter, r *http.Request) {
-    id , err := app.readIDParam(r)
+func (app *application) showMovieHandler(c *gin.Context) {
+    id , err := app.readIDParam(c)
     if err != nil || id < 1 {
-        http.NotFound(w, r)
+        c.String(http.StatusNotFound, "404 page not found")
         return
     }
 
-    fmt.Fprintf(w, "show the details of the movie %d\n", id)
+    c.String(http.StatusOK, "show the details of the movie %d\n", id)
 }
 
 
