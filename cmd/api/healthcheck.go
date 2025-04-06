@@ -6,9 +6,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-
 func (app *application) healthCheckHandler(c *gin.Context) {
-    c.String(http.StatusOK, "status: available\n")
-    c.String(http.StatusOK, "environment: %s\n", app.config.env)
-    c.String(http.StatusOK, "version: %s\n", version)
+	env := envelope{
+		"status": "available",
+		"system_info": map[string]string{
+			"environment": app.config.env,
+			"version": version,
+		},
+	}
+
+	err := app.writeJSON(c, http.StatusOK, env, nil)
+	if err != nil {
+		app.serverErrorResponse(c, err)
+	}
 }
