@@ -20,6 +20,5 @@ func (app *application) routes() *gin.Engine {
     router.POST("/v1/movies", app.createMovieHandler)
     router.GET("/v1/movies/:id", app.showMovieHandler)
     ui.AddRoutes(router)
-
     return router
 }

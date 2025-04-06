@@ -10,6 +10,10 @@ import (
 	"github.com/k3vwdd/greenlit/internal/validator"
 )
 
+
+func (app *application) createMovieHandlerGET(c *gin.Context) {
+}
+
 func (app *application) createMovieHandler(c *gin.Context) {
 	var input struct {
 		Title 	string   		 `json:"title"`
@@ -36,7 +40,17 @@ func (app *application) createMovieHandler(c *gin.Context) {
 		app.failedValidationResponse(c, v.Errors)
 	}
 
-	fmt.Fprintf(c.Writer, "%+v\n", input)
+	err = app.models.Movies.Insert(movie)
+	if err != nil {
+		app.serverErrorResponse(c, err)
+		return
+	}
+
+	c.Header("Location", fmt.Sprintf("/v1/movies/%d", movie.ID))
+	err = app.writeJSON(c, http.StatusCreated, envelope{"movie": movie}, nil)
+	if err != nil {
+		app.serverErrorResponse(c, err)
+	}
 }
 
 func (app *application) showMovieHandler(c *gin.Context) {

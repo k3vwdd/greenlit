@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Home from "./components/Home";
 import Healthcheck from "./components/Healthcheck";
+import CreateMovie from "./components/CreateMovie";
 
 function App() {
     return (
@@ -17,7 +18,15 @@ function App() {
                         }
                     />
                     <Route
-                        path="/v1/healthcheck"
+                    path="/createmovies"
+                    element={
+                        <div className="text-gray-100">
+                        <CreateMovie />
+                        </div>
+                    }
+                    />
+                    <Route
+                        path="/healthcheck"
                         element={
                             <div className="text-gray-100">
                                 <Healthcheck />
