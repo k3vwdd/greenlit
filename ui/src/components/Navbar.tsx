@@ -1,29 +1,59 @@
 import { Link } from "react-router-dom";
+import {
+    NavigationMenu,
+    NavigationMenuItem,
+    NavigationMenuLink,
+    NavigationMenuList,
+    navigationMenuTriggerStyle,
+} from "./navigation-menu.tsx"; // Adjust the path based on your project structure
 
-function Navbar() {
+export default function Navbar() {
     return (
-        <nav className="bg-gray-800 p-4">
-            <div className="container mx-auto flex justify-between items-center">
-                <div className="text-green-500 font-bold text-xl">
-                    <Link to="/">Greenlit</Link>
-                </div>
-                <div className="space-x-4">
-                    <Link
-                        to="/"
-                        className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                    >
-                        Home
-                    </Link>
-                    <Link to="/v1/healthcheck"
-                        className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                    >
-                        Health Check
-                    </Link>
-                    {/* Add more navigation links here */}
-                </div>
-            </div>
+        <nav className="flex items-center justify-between p-6 bg-gray-200 border-b border-border">
+            <NavigationMenu>
+                <NavigationMenuList>
+                    <NavigationMenuItem>
+                        <NavigationMenuLink asChild>
+                            <Link
+                                to="/"
+                                className={navigationMenuTriggerStyle()}
+                            >
+                                Home
+                            </Link>
+                        </NavigationMenuLink>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
+                        <NavigationMenuLink asChild>
+                            <Link
+                                to="/createmovies"
+                                className={navigationMenuTriggerStyle()}
+                            >
+                                Create Movie
+                            </Link>
+                        </NavigationMenuLink>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
+                        <NavigationMenuLink asChild>
+                            <Link
+                                to="/movies"
+                                className={navigationMenuTriggerStyle()}
+                            >
+                                All Movies
+                            </Link>
+                        </NavigationMenuLink>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
+                        <NavigationMenuLink asChild>
+                            <Link
+                                to="/healthcheck"
+                                className={navigationMenuTriggerStyle()}
+                            >
+                                Health Check
+                            </Link>
+                        </NavigationMenuLink>
+                    </NavigationMenuItem>
+                </NavigationMenuList>
+            </NavigationMenu>
         </nav>
     );
 }
-
-export default Navbar;

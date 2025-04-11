@@ -15,7 +15,6 @@ func (app *application) logError(c *gin.Context, err error) {
 	app.logger.Error(err.Error(), "method", method, "uri", uri)
 }
 
-
 func (app *application) failedValidationResponse(c *gin.Context, errors map[string]string) {
 	app.errorResponse(c, http.StatusUnprocessableEntity, errors)
 }
@@ -47,4 +46,9 @@ func (app *application) notFoundResponse(c *gin.Context) {
 func (app *application) methodNotAllowedResponse(c *gin.Context) {
 	message := fmt.Sprintf("the %s method is not supported for this resource", c.Request.Method)
 	app.errorResponse(c, http.StatusMethodNotAllowed, message)
+}
+
+func (app *application) editConflictResponse(c *gin.Context) {
+	message := "unable to update the record due to an edit conflict, please try again"
+	app.errorResponse(c, http.StatusConflict, message)
 }

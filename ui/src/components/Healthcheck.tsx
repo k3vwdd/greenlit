@@ -1,31 +1,30 @@
-import { useState, useEffect } from "react";
+import {
+  useQuery
+} from '@tanstack/react-query'
+
 import axios from "axios";
 
+interface HealthcheckData {
+    status: string;
+    system_info: {
+        [key: string]: string
+    };
+}
+
+const fetchHeathCheck = async (): Promise<HealthcheckData> => {
+    const response = await axios.get("http://localhost:4000/v1/healthcheck");
+    return response.data;
+}
+
 function Healthcheck() {
-    const [data, setData] = useState<{ status: string; system_info: { [key: string]: string } } | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
-
     const columns = ["status", "environment", "version"];
+    const { data, error, isPending } = useQuery({
+        queryKey: ["healthcheck"],
+        queryFn: fetchHeathCheck,
+    })
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get("http://localhost:4000/v1/healthcheck");
-                setData(response.data);
-                setLoading(false);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-                setError("Failed to load healthcheck data");
-                setLoading(false);
-            }
-        };
-
-        fetchData();
-    }, []);
-
-    if (loading) return <div className="text-center py-4">Loading...</div>;
-    if (error) return <div className="text-red-500 text-center py-4">{error}</div>;
+    if (isPending) return <div className="text-center py-4">Loading...</div>;
+    if (error) return <div className="text-red-500 text-center py-4">{(error as Error).message}</div>;
     if (!data) return <div className="text-center py-4">No data available</div>;
 
     return (
