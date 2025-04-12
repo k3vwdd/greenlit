@@ -55,7 +55,6 @@ function CreateMovie() {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
-
         if (name === "year") {
             let yearValue: number | undefined;
             if (value === "") {
@@ -67,7 +66,6 @@ function CreateMovie() {
         } else {
             setFormData({ ...formData, [name]: value });
         }
-
         if (name in errors) setErrors({ ...errors, [name]: "" });
     };
 
@@ -75,6 +73,7 @@ function CreateMovie() {
         e.preventDefault();
         const newErrors: Errors = {};
 
+        const trimmedTitle = formData.title.replace(/\s+$/, "");
         if (!formData.title) newErrors.title = "Title is required";
         if (!formData.year) newErrors.year = "Year is required";
         if (!formData.runtime) newErrors.runtime = "Runtime minutes is required: '100 mins'";
@@ -87,6 +86,7 @@ function CreateMovie() {
             .filter((genre) => genre !== "");
         const formDataToSubmit = {
             ...formData,
+            title: trimmedTitle,
             genres: genresArray,
         };
 

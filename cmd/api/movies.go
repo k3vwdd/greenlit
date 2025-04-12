@@ -76,7 +76,6 @@ func (app *application) showMovieHandler(c *gin.Context) {
     c.String(http.StatusOK, "show the details of the movie %d\n", id)
 }
 
-
 func (app *application) listMoviesHandler(c *gin.Context) {
 	var input struct {
 		Title		string
@@ -100,13 +99,13 @@ func (app *application) listMoviesHandler(c *gin.Context) {
 		return
 	}
 
-	movies, err := app.models.Movies.GetAll(input.Title, input.Genres, input.Filters)
+	movies, metadata, err := app.models.Movies.GetAll(input.Title, input.Genres, input.Filters)
 	if err != nil {
 		app.serverErrorResponse(c, err)
 		return
 	}
 
-	err = app.writeJSON(c, http.StatusOK, envelope{"movies": movies}, nil)
+	err = app.writeJSON(c, http.StatusOK, envelope{"movies": movies, "metadata": metadata}, nil)
 	if err != nil {
 		app.serverErrorResponse(c, err)
 		return

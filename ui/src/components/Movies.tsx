@@ -30,7 +30,6 @@ const columns: ColumnDef<Movie>[] = [
     },
 ];
 
-
 function AllMovies() {
     const { data, error, isPending } = useQuery({
         queryKey: ["movies"],
